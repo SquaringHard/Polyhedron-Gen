@@ -18,19 +18,19 @@ def generate_convex_polyhedron(n, a = 10, b = 10, c = 10):
     # triangulate the points
     poly = ConvexHull(points).simplices
 
+    # write the polyhedron to file
+    with open('sphere{}.geom'.format(n), 'w') as file:
+        f = len(poly)
+        file.write(f"{n} {f} {n + f - 2}\n")
+        for i in points:
+            file.write(f"{i[0]} {i[1]} {i[2]}\n")
+        for i in poly:
+            file.write(f"3 {i[0]} {i[1]} {i[2]}\n")
+
     # plot the polyhedron
     fig = pyplot.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.add_collection3d(Poly3DCollection([points[i] for i in poly], edgecolors='k', facecolors='paleturquoise', alpha=.8))
     pyplot.show()
-
-    # # write the polyhedron to file
-    # with open('sphere{}.geom'.format(n), 'w') as file:
-    #     f = len(poly)
-    #     file.write(f"{n} {f} {n + f - 2}\n")
-    #     for i in points:
-    #         file.write(f"{i[0]} {i[1]} {i[2]}\n")
-    #     for i in poly:
-    #         file.write(f"3 {i[0]} {i[1]} {i[2]}\n")
 
 generate_convex_polyhedron(100)

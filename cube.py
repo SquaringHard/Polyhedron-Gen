@@ -48,20 +48,20 @@ def generate_convex_polyhedron(n, a = 10, b = 10, c = 10):
     poly6 += n * 5
     polys = numpy.concatenate([poly1, poly2, poly3, poly4, poly5, poly6])
 
+    # write the polyhedron to file
+    v = len(points)
+    f = len(polys)
+    with open('cube{}.geom'.format(v), 'w') as file:
+        file.write(f"{v} {f} {v + f - 2}\n")
+        for i in points:
+            file.write(f"{i[0]} {i[1]} {i[2]}\n")
+        for i in polys:
+            file.write(f"3 {i[0]} {i[1]} {i[2]}\n")
+
     # plot the polyhedron
     fig = pyplot.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.add_collection3d(Poly3DCollection([points[i] for i in polys], edgecolors='k', facecolors='paleturquoise', alpha=.8))
     pyplot.show()
-    
-    # # write the polyhedron to file
-    # v = len(points)
-    # f = len(polys)
-    # with open('cube{}.geom'.format(v), 'w') as file:
-    #     file.write(f"{v} {f} {v + f - 2}\n")
-    #     for i in points:
-    #         file.write(f"{i[0]} {i[1]} {i[2]}\n")
-    #     for i in polys:
-    #         file.write(f"3 {i[0]} {i[1]} {i[2]}\n")
 
 generate_convex_polyhedron(100)
